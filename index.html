@@ -40,9 +40,9 @@
                   fetch(`https://web3.inscribe.today/https://unisat.io/brc20-api-v2/inscriptions/category/text/search/v2?name=titt:&limit=${limit}&start=${start}`)
                   .then(response => response.json())
                   .then(data => {
+                      console.log(data);
                       matchCount = data.data.matchCount; // Update matchCount for the first iteration
                       results.push(...data.data.detail); // Add fetched results to the results array
-
                       // If there are more results, recursively call fetchDataWithStart with the updated start value
                       if (start + limit < matchCount) {
                           fetchDataWithStart(start + limit);
@@ -120,6 +120,7 @@
 
               filteredResults.forEach(detail => {
                   let address = detail.address;
+                  let inscriptionID = detail.inscriptionId;
                   let truncatedAddress = address.substring(0, 5) + "..." + address.substring(address.length - 5, address.length);
                   let timestamp = detail.timestamp;
                   let humanReadableTimestamp = getHumanReadableTimestamp(timestamp);
@@ -129,7 +130,7 @@
                   listItemElement.innerHTML = `
                       <div class="titt">
                           ${inscriptionName}
-                          (<a href="https://ordinalswallet.com/address/${address}" target="_blank">${truncatedAddress}</a>)
+                          (<a href="https://ordinals.com/inscription/${inscriptionID}" target="_blank">${truncatedAddress}</a>)
                           ${humanReadableTimestamp}
                       </div>
                   `;
